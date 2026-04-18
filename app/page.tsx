@@ -5,16 +5,23 @@ import Container from '@/components/Container/Container';
 import Heading from '@/components/Heading/Heading';
 
 import css from './page.module.css';
+import ExchangeForm from '@/components/ExchangeForm/ExchangeForm';
+import ExchangeInfo from '@/components/ExchangeInfo/ExchangeInfo';
+import { useCurrStore } from '@/lib/stores/currencyStore';
+import Loader from '@/components/Loader/Loader';
 
 export default function Home() {
   const isError = false;
-
+  const exchangeInfo = useCurrStore((state) => state.exchangeInfo);
+  const isLoading = useCurrStore((state) => state.isLoading);
   return (
     <main className={css.main}>
       <Section>
         <Container>
           <Heading info title="What currencies do you want to exchange?🙂" />
-
+          <ExchangeForm />
+          {isLoading && <Loader />}
+          {exchangeInfo && <ExchangeInfo {...exchangeInfo} />}
           {isError && (
             <Heading
               error
